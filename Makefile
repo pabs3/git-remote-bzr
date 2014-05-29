@@ -1,9 +1,13 @@
+ifeq (0,$(shell id -u))
+prefix := /usr/local
+else
 prefix := $(HOME)
+endif
 
 bindir := $(prefix)/bin
 mandir := $(prefix)/share/man/man1
 
-all: doc
+all: doc test
 
 doc: doc/git-remote-bzr.1
 
@@ -18,7 +22,7 @@ clean:
 
 D = $(DESTDIR)
 
-install:
+install: install-doc
 	install -d -m 755 $(D)$(bindir)/
 	install -m 755 git-remote-bzr $(D)$(bindir)/git-remote-bzr
 
