@@ -30,15 +30,7 @@ except ImportError:
 if hasattr(bzrlib, "initialize"):
     bzrlib.initialize()
 
-import bzrlib.plugin
 bzrlib.plugin.load_plugins()
-
-import bzrlib.generate_ids
-import bzrlib.transport
-import bzrlib.errors
-import bzrlib.ui
-import bzrlib.urlutils
-import bzrlib.branch
 
 import sys
 import os
