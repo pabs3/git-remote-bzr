@@ -276,10 +276,10 @@ def export_files(tree, files):
         mark = marks.next_mark()
         filenodes[h] = mark
 
-        print "blob"
-        print "mark :%u" % mark
-        print "data %d" % len(d)
-        print d
+        print("blob")
+        print("mark :%u" % mark)
+        print("data %d" % len(d))
+        print(d)
 
         final.append((mode, mark, path))
 
@@ -373,14 +373,14 @@ def export_branch(repo, name):
         modified_final = export_files(cur_tree, modified)
 
         if len(parents) == 0:
-            print 'reset %s' % ref
+            print('reset %s' % ref)
 
-        print "commit %s" % ref
-        print "mark :%d" % (marks.get_mark(revid))
-        print "author %s" % (author)
-        print "committer %s" % (committer)
-        print "data %d" % (len(msg))
-        print msg
+        print("commit %s" % ref)
+        print("mark :%d" % (marks.get_mark(revid)))
+        print("author %s" % (author))
+        print("committer %s" % (committer))
+        print("data %d" % (len(msg)))
+        print(msg)
 
         for i, p in enumerate(parents):
             try:
@@ -389,14 +389,14 @@ def export_branch(repo, name):
                 # ghost?
                 continue
             if i == 0:
-                print "from :%s" % m
+                print("from :%s" % m)
             else:
-                print "merge :%s" % m
+                print("merge :%s" % m)
 
         for f in removed:
-            print "D %s" % (f,)
+            print("D %s" % (f,))
         for f in modified_final:
-            print "M %s :%u %s" % f
+            print("M %s :%u %s" % f)
         print
 
         if len(seq) > 1:
@@ -406,26 +406,26 @@ def export_branch(repo, name):
         progress = (revno - tip_revno)
         if (progress % 100 == 0):
             if total:
-                print "progress revision %d '%s' (%d/%d)" % (revno, name, progress, total)
+                print("progress revision %d '%s' (%d/%d)" % (revno, name, progress, total))
             else:
-                print "progress revision %d '%s' (%d)" % (revno, name, progress)
+                print("progress revision %d '%s' (%d)" % (revno, name, progress))
 
     branch.unlock()
 
     revid = branch.last_revision()
 
     # make sure the ref is updated
-    print "reset %s" % ref
-    print "from :%u" % rev_to_mark(revid)
-    print
+    print("reset %s" % ref)
+    print("from :%u" % rev_to_mark(revid))
+    print()
 
     marks.set_tip(name, revid)
 
 def export_tag(repo, name):
     ref = '%s/tags/%s' % (prefix, name)
-    print "reset %s" % ref
-    print "from :%u" % rev_to_mark(tags[name])
-    print
+    print("reset %s" % ref)
+    print("from :%u" % rev_to_mark(tags[name]))
+    print()
 
 def export_head(repo):
     name = master_branch
@@ -435,11 +435,11 @@ def do_import(parser):
     repo = parser.repo
     path = os.path.join(dirname, 'marks-git')
 
-    print "feature done"
+    print("feature done")
     if os.path.exists(path):
-        print "feature import-marks=%s" % path
-    print "feature export-marks=%s" % path
-    print "feature force"
+        print("feature import-marks=%s" % path)
+    print("feature export-marks=%s" % path)
+    print("feature force")
     sys.stdout.flush()
 
     while parser.check('import'):
@@ -454,7 +454,7 @@ def do_import(parser):
             export_tag(repo, name)
         parser.next()
 
-    print 'done'
+    print('done')
 
     sys.stdout.flush()
 
@@ -761,7 +761,7 @@ def do_export(parser):
                     peer.bzrdir.push_branch(branch, revision_id=revid,
                                             overwrite=force)
                 except bzrlib.errors.DivergedBranches:
-                    print "error %s non-fast forward" % ref
+                    print("error %s non-fast forward" % ref)
                     continue
 
             try:
@@ -771,30 +771,30 @@ def do_export(parser):
                 pass
         elif ref.startswith('refs/tags/'):
             # TODO: implement tag push
-            print "error %s pushing tags not supported" % ref
+            print("error %s pushing tags not supported" % ref)
             continue
         else:
             # transport-helper/fast-export bugs
             continue
 
-        print "ok %s" % ref
+        print("ok %s" % ref)
 
     print
 
 def do_capabilities(parser):
-    print "import"
-    print "export"
-    print "refspec refs/heads/*:%s/heads/*" % prefix
-    print "refspec refs/tags/*:%s/tags/*" % prefix
+    print("import")
+    print("export")
+    print("refspec refs/heads/*:%s/heads/*" % prefix)
+    print("refspec refs/tags/*:%s/tags/*" % prefix)
 
     path = os.path.join(dirname, 'marks-git')
 
     if os.path.exists(path):
-        print "*import-marks %s" % path
-    print "*export-marks %s" % path
+        print("*import-marks %s" % path)
+    print("*export-marks %s" % path)
 
-    print "option"
-    print
+    print("option")
+    print()
 
 class InvalidOptionValue(Exception):
     pass
@@ -813,11 +813,11 @@ def do_option(parser):
     try:
         if opt == 'force':
             force = get_bool_option(val)
-            print 'ok'
+            print('ok')
         else:
-            print 'unsupported'
+            print('unsupported')
     except InvalidOptionValue:
-        print "error '%s' is not a valid value for option '%s'" % (val, opt)
+        print("error '%s' is not a valid value for option '%s'" % (val, opt))
 
 def ref_is_valid(name):
     return True not in [c in name for c in '~^: \\']
@@ -828,7 +828,7 @@ def do_list(parser):
     for name in branches:
         if not master_branch:
             master_branch = name
-        print "? refs/heads/%s" % name
+        print("? refs/heads/%s" % name)
 
     branch = get_remote_branch(master_branch)
     branch.lock_read()
@@ -839,12 +839,12 @@ def do_list(parser):
             continue
         if not ref_is_valid(tag):
             continue
-        print "? refs/tags/%s" % tag
+        print("? refs/tags/%s" % tag)
         tags[tag] = revid
     branch.unlock()
 
-    print "@refs/heads/%s HEAD" % master_branch
-    print
+    print("@refs/heads/%s HEAD" % master_branch)
+    print()
 
 def clone(path, remote_branch):
     try:
