@@ -338,7 +338,7 @@ def export_branch(repo, name):
             from bzrlib import bencode
             try:
                 files = bencode.bdecode(rev.properties['file-info'].encode('utf-8'))
-            except Exception, e:
+            except Exception as e:
                 # protect against repository corruption
                 # (happens in the wild, see MySQL tree)
                 files = ()
@@ -707,7 +707,7 @@ def parse_commit(parser):
             list(builder.record_iter_changes(mtree, mtree.last_revision(), changes))
             builder.finish_inventory()
             builder.commit(data.decode('utf-8', 'replace'))
-        except Exception, e:
+        except Exception as e:
             builder.abort()
             raise
     finally:
