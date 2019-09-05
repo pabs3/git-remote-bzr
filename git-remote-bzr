@@ -40,7 +40,12 @@ import io
 import atexit
 import shutil
 import hashlib
-import urlparse
+
+try:
+    from urllib import parse as urlparse
+except:
+    import urlparse
+
 import subprocess
 import codecs
 
