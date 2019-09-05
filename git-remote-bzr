@@ -22,7 +22,11 @@
 
 import sys
 
-import bzrlib
+try:
+    import breezy as bzrlib
+except ImportError:
+    import bzrlib
+
 if hasattr(bzrlib, "initialize"):
     bzrlib.initialize()
 
