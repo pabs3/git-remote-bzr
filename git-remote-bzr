@@ -36,7 +36,7 @@ import sys
 import os
 import json
 import re
-import StringIO
+import io
 import atexit
 import shutil
 import hashlib
@@ -602,7 +602,7 @@ class CustomTree():
 
     def get_file_with_stat(self, file_id, path=None):
         content = self.get_content(file_id)
-        return (StringIO.StringIO(content), None)
+        return (io.StringIO(content), None)
 
     def get_symlink_target(self, file_id):
         return self.get_content(file_id)
