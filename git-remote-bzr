@@ -32,6 +32,13 @@ if hasattr(bzrlib, "initialize"):
 
 bzrlib.plugin.load_plugins()
 
+try:
+    import bzrlib.bzr.bzrdir
+    bzrlib.bzrdir = bzrlib.bzr
+except ImportError:
+    raise
+    pass
+
 import sys
 import os
 import json
